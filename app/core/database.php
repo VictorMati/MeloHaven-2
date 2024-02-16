@@ -4,9 +4,8 @@ class Database {
     private $host = "localhost";
     private $username = "root";
     private $password = "@Vmn_6887!7886";
-    private $dbname = "melohaven";
-
-    protected $conn;
+    private $dbname = "harmony_vibe_music";
+    private $conn;
 
     // Constructor to establish the database connection
     public function __construct() {
@@ -23,43 +22,27 @@ class Database {
         return $this->conn;
     }
 
-    public function query($query, $data = [])
-	{
+    // Method for generic query execution
+    public function executeQuery($query, $data = []) {
+        $stmt = $this->conn->prepare($query);
+        $success = $stmt->execute($data);
 
-		$con = $this->getConnection();
-		$stm = $con->prepare($query);
+        return $success ? $stmt : false;
+    }
 
-		$check = $stm->execute($data);
-		if($check)
-		{
-			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
-				return $result;
-			}
-		}
+    // Method to fetch multiple rows
+    public function fetchAllRows($query, $data = []) {
+        $stmt = $this->executeQuery($query, $data);
 
-		return false;
-	}
+        return $stmt ? $stmt->fetchAll(PDO::FETCH_OBJ) : false;
+    }
 
-	public function get_row($query, $data = [])
-	{
+    // Method to fetch a single row
+    public function fetchSingleRow($query, $data = []) {
+        $stmt = $this->executeQuery($query, $data);
 
-		$con = $this->getConnection();
-		$stm = $con->prepare($query);
-
-		$check = $stm->execute($data);
-		if($check)
-		{
-			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
-				return $result[0];
-			}
-		}
-
-		return false;
-	}
+        return $stmt ? $stmt->fetch(PDO::FETCH_OBJ) : false;
+    }
 }
 
 // Example usage:

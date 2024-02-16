@@ -2,6 +2,6 @@
 
 session_start();
 
-require("../app/init.php");
+require("C:\Users\hp\Documents\GitHub\MeloHaven-2\app\init.php");
 
 $app = new App();
