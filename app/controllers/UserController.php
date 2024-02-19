@@ -1,7 +1,6 @@
 <?php
 
-require_once ("C:\Users\hp\Documents\GitHub\MeloHaven-2\app\core\controller.php");
-require_once ("C:\Users\hp\Documents\GitHub\MeloHaven-2\app\models\UserModel.php");
+require("C:\Users\hp\Documents\GitHub\MeloHaven-2\app\models\UserModel.php");
 
 class UserController extends Controller {
 

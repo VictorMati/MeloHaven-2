@@ -6,4 +6,8 @@ class Home extends Controller{
         
         $this->loadView("home");
     }
+
+    public function loadNewSongs(){
+
+    }
 }

@@ -14,7 +14,7 @@
     <div class="login-container">
         <img src="/public/assets/images/app_images/logo.jpg" alt="Melohaven Logo">
         <h1>Melohaven</h1>
-        <form action="/app/controllers/UserController.php" method="post" onsubmit="return validateLoginForm()">
+        <form action="/app/controllers/User.php" method="post" onsubmit="return validateLoginForm()">
             <div class="input-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>

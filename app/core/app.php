@@ -2,7 +2,7 @@
 
 class App {
 
-    private $controller = "User"; 
+    private $controller = "user"; 
     private $method = "index";
     private $params = [];
 
