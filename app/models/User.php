@@ -8,6 +8,57 @@ class User {
         $this->db = new Database();
     }
 
+    // Get user by email
+    public function getUserByEmail($email) {
+        $query = "SELECT * FROM Users WHERE email = :email";
+        $data = [':email' => $email];
+
+        return $this->db->fetchSingleRow($query, $data);
+    }
+
+    // Get user by username
+    public function getUserByUsername($username) {
+        $query = "SELECT * FROM Users WHERE username = :username";
+        $data = [':username' => $username];
+
+        return $this->db->fetchSingleRow($query, $data);
+    }
+
+    // Get user by ID
+    public function getUserById($userId) {
+        $query = "SELECT * FROM Users WHERE user_id = :user_id";
+        $data = [':user_id' => $userId];
+
+        return $this->db->fetchSingleRow($query, $data);
+    }
+
+    // Update user password reset token
+    public function updatePasswordResetToken($userId, $resetToken) {
+        $query = "UPDATE Users SET password_reset_token = :reset_token WHERE user_id = :user_id";
+        $data = [':user_id' => $userId, ':reset_token' => $resetToken];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
+    // Check if a reset token is valid
+    public function isResetTokenValid($userId, $resetToken) {
+        $query = "SELECT * FROM Users WHERE user_id = :user_id AND password_reset_token = :reset_token";
+        $data = [':user_id' => $userId, ':reset_token' => $resetToken];
+
+        return $this->db->fetchSingleRow($query, $data) !== false;
+    }
+
+    // Reset user password
+    public function resetPassword($userId, $newPassword) {
+        // Hash the new password before updating it in the database
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $query = "UPDATE Users SET password_hash = :password_hash, password_reset_token = NULL WHERE user_id = :user_id";
+        $data = [':user_id' => $userId, ':password_hash' => $hashedPassword];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
     // Authentication method
     public function authenticateUser($email, $password) {
         $query = "SELECT * FROM Users WHERE email = :email";
@@ -126,6 +177,12 @@ class User {
 
 // Example usage:
 // $userModel = new User();
+// $userByEmail = $userModel->getUserByEmail($email);
+// $userByUsername = $userModel->getUserByUsername($username);
+// $userById = $userModel->getUserById($userId);
+// $updateResetToken = $userModel->updatePasswordResetToken($userId, $resetToken);
+// $isTokenValid = $userModel->isResetTokenValid($userId, $resetToken);
+// $resetPasswordResult = $userModel->resetPassword($userId, $newPassword);
 // $userProfile = $userModel->getUserProfile($userId);
 // $updateResult = $userModel->updateProfile($userId, $newUsername, $newBio, $newProfilePicture);
 // $followers = $userModel->getFollowers($userId);
