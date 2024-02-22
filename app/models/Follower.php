@@ -49,6 +49,8 @@ class Follower {
 
         return $this->db->fetchSingleRow($query, $data) !== false;
     }
+
+
 }
 
 // Example usage:

@@ -1,67 +1,47 @@
 <?php
 
-include_once("path/to/models/User.php");
-include_once("path/to/models/Song.php");
-include_once("path/to/models/PopularSong.php");
-include_once("path/to/models/PopularArtist.php");
+class HomeController extends Controller
+{
+    private $songModel;
+    private $artistModel;
+    private $bannerModel;
 
-class HomeController {
-    
-    private $db;
-
-    public function __construct($database) {
-        $this->db = $database;
+    public function __construct()
+    {
+        parent::__construct();
+        // Initialize models used by HomeController
+        $this->songModel = $this->loadModel('Song');
+        $this->artistModel = $this->loadModel('Artist');
+        $this->bannerModel = $this->loadModel('Banner');
     }
 
-    public function index() {
-        // Load the home page with relevant data
-        $bannerSlides = $this->getBannerSlides();
-        $newReleases = $this->getNewReleases();
-        $recommendedMusic = $this->getRecommendedMusic();
-        $popularArtists = $this->getPopularArtists();
-        $popularSongs = $this->getPopularSongs();
+    // Method to load the home page
+    public function index()
+    {
+        // Fetch data for various sections
+        $newReleases = $this->songModel->getNewReleases();
+        $recommendedMusic = $this->songModel->getRecommendedMusic();
+        $popularArtists = $this->artistModel->getPopularArtists();
+        $bannerSlides = $this->bannerModel->getBannerSlides();
 
-        // Load the home view with the fetched data
-        include_once("path/to/home_view.php");
+        // Load the home page view with the fetched data
+        $this->loadView('home/index', [
+            'newReleases' => $newReleases,
+            'recommendedMusic' => $recommendedMusic,
+            'popularArtists' => $popularArtists,
+            'bannerSlides' => $bannerSlides,
+        ]);
     }
 
-    private function getBannerSlides() {
-        // Placeholder method to fetch banner slides from the database
-        // Implement your logic to fetch actual data from the model
-        return [
-            ['image' => 'slide1.jpg', 'title' => 'Welcome to MeloHaven', 'subtitle' => 'Discover, Enjoy, and Share Your Favorite Music'],
-            // Add more slides as needed
-        ];
+    // Method to handle banner slides
+    public function handleBannerSlides()
+    {
+        // Logic for handling banner slides, if needed
     }
 
-    private function getNewReleases() {
-        // Placeholder method to fetch new releases from the database
-        // Implement your logic to fetch actual data from the model
-        return Song::getNewlyAddedSongs($this->db);
-    }
-
-    private function getRecommendedMusic() {
-        // Placeholder method to fetch recommended music from the database
-        // Implement your logic to fetch actual data from the model
-        // For example, fetch recommendations for the logged-in user
-        $loggedInUserId = 1; // Replace with the actual user ID
-        return Song::getPopularSongs($this->db, $loggedInUserId);
-    }
-
-    private function getPopularArtists() {
-        // Placeholder method to fetch popular artists from the database
-        // Implement your logic to fetch actual data from the model
-        return PopularArtist::getPopularArtists($this->db);
-    }
-
-    private function getPopularSongs() {
-        // Placeholder method to fetch popular songs from the database
-        // Implement your logic to fetch actual data from the model
-        return PopularSong::getPopularSongs($this->db);
+    // Method to display various sections
+    public function displaySections()
+    {
+        // Logic for displaying various sections, if needed
     }
 }
-
-// Example usage:
-// $db = new Database();
-// $homeController = new HomeController($db);
-// $homeController->index();

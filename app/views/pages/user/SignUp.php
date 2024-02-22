@@ -14,7 +14,7 @@
     <div class="signup-container">
         <img src="/public/assets/images/app_images/logo.jpg" alt="Melohaven Logo">
         <h1>Melohaven</h1>
-        <form action="/app/controllers/User.php" method="post" onsubmit="return validateSignupForm()">
+        <form action="/app/controllers/UserController.php?action=register" method="post" onsubmit="return validateSignupForm()">
             <div class="input-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -38,17 +38,16 @@
             <button type="submit">Sign Up</button>
         </form>
         <div class="social-signup">
-            <a href="#" class="fab fa-google"></a>
-            google
-            <a href="#" class="fab fa-facebook"></a>
-            facebook
+            <!-- Add your social signup links here -->
+            <a href="#" class="fab fa-google"></a> Google
+            <a href="#" class="fab fa-facebook"></a> Facebook
         </div>
         <div class="options">
-            <p>Already have an account? <a href="login.php">Log In</a></p>
+            <p>Already have an account? <a href="/app/controllers/UserController.php?action=login">Log In</a></p>
         </div>
     </div>
 
-    <script src="../public/js/signupValidation.js"></script>
+    <script src="/public/js/signupValidation.js"></script>
 </body>
 
 </html>

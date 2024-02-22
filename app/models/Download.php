@@ -10,6 +10,14 @@ class Download {
 
     // Download-related methods
 
+    // Add a song download record
+    public function addDownload($userId, $fileId) {
+        $query = "INSERT INTO Downloads (user_id, file_id) VALUES (:user_id, :file_id)";
+        $data = [':user_id' => $userId, ':file_id' => $fileId];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
     // Get user downloads
     public function getUserDownloads($userId) {
         $query = "SELECT Downloads.download_id, Downloads.download_date, User_Files.file_id, User_Files.file_type, User_Files.file_path

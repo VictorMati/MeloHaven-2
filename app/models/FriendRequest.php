@@ -49,6 +49,31 @@ class FriendRequest {
 
         return $this->db->fetchSingleRow($query, $data) !== false;
     }
+
+
+    // Get user's friend requests
+    public function getFriendRequests($userId) {
+        $query = "SELECT * FROM FriendRequests WHERE receiver_id = :receiver_id AND request_status = 'Pending'";
+        $data = [':receiver_id' => $userId];
+
+        return $this->db->fetchAllRows($query, $data);
+    }
+
+    // Accept or reject a friend request
+    public function respondToFriendRequest($requestId, $response) {
+        $query = "UPDATE FriendRequests SET request_status = :response WHERE request_id = :request_id";
+        $data = [':response' => $response, ':request_id' => $requestId];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
+    // Get user's friends
+    public function getFriends($userId) {
+        $query = "SELECT * FROM Friends WHERE (user1_id = :user_id OR user2_id = :user_id) AND status = 'Accepted'";
+        $data = [':user_id' => $userId];
+
+        return $this->db->fetchAllRows($query, $data);
+    }
 }
 
 // Example usage:

@@ -46,6 +46,22 @@ class Genre {
 
         return $this->db->executeQuery($query, $data);
     }
+
+    // Get all songs related to a genre
+    public function getSongsByGenre($genreId) {
+        $query = "SELECT * FROM Songs WHERE genre_id = :genre_id";
+        $data = [':genre_id' => $genreId];
+
+        return $this->db->fetchAllRows($query, $data);
+    }
+
+    // Get specific genre songs with a limit
+    public function getGenreSongsWithLimit($genreId, $limit) {
+        $query = "SELECT * FROM Songs WHERE genre_id = :genre_id LIMIT :limit";
+        $data = [':genre_id' => $genreId, ':limit' => $limit];
+
+        return $this->db->fetchAllRows($query, $data);
+    }
 }
 
 // Example usage:

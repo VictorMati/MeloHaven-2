@@ -105,74 +105,6 @@ class User {
 
         return $this->db->executeQuery($query, $data);
     }
-
-    // Social Interaction methods
-
-    // Follow a user
-    public function followUser($followerId, $followedId) {
-        $query = "INSERT INTO Followers (follower_id, followed_id) VALUES (:follower_id, :followed_id)";
-        $data = [':follower_id' => $followerId, ':followed_id' => $followedId];
-
-        return $this->db->executeQuery($query, $data);
-    }
-
-    // Get user's followers
-    public function getFollowers($userId) {
-        $query = "SELECT * FROM Followers WHERE followed_id = :followed_id";
-        $data = [':followed_id' => $userId];
-
-        return $this->db->fetchAllRows($query, $data);
-    }
-
-    // Send a friend request
-    public function sendFriendRequest($senderId, $receiverId) {
-        $query = "INSERT INTO FriendRequests (sender_id, receiver_id, request_status) VALUES (:sender_id, :receiver_id, 'Pending')";
-        $data = [':sender_id' => $senderId, ':receiver_id' => $receiverId];
-
-        return $this->db->executeQuery($query, $data);
-    }
-
-    // Get user's friend requests
-    public function getFriendRequests($userId) {
-        $query = "SELECT * FROM FriendRequests WHERE receiver_id = :receiver_id AND request_status = 'Pending'";
-        $data = [':receiver_id' => $userId];
-
-        return $this->db->fetchAllRows($query, $data);
-    }
-
-    // Accept or reject a friend request
-    public function respondToFriendRequest($requestId, $response) {
-        $query = "UPDATE FriendRequests SET request_status = :response WHERE request_id = :request_id";
-        $data = [':response' => $response, ':request_id' => $requestId];
-
-        return $this->db->executeQuery($query, $data);
-    }
-
-    // Get user's friends
-    public function getFriends($userId) {
-        $query = "SELECT * FROM Friends WHERE (user1_id = :user_id OR user2_id = :user_id) AND status = 'Accepted'";
-        $data = [':user_id' => $userId];
-
-        return $this->db->fetchAllRows($query, $data);
-    }
-
-    // Premium User Subscription methods
-
-    // Subscribe to premium
-    public function subscribeToPremium($userId, $startDate, $endDate) {
-        $query = "INSERT INTO PremiumUsers (user_id, subscription_start_date, subscription_end_date) VALUES (:user_id, :start_date, :end_date)";
-        $data = [':user_id' => $userId, ':start_date' => $startDate, ':end_date' => $endDate];
-
-        return $this->db->executeQuery($query, $data);
-    }
-
-    // Check if a user is a premium user
-    public function isPremiumUser($userId) {
-        $query = "SELECT * FROM PremiumUsers WHERE user_id = :user_id AND subscription_end_date >= CURRENT_DATE";
-        $data = [':user_id' => $userId];
-
-        return $this->db->fetchSingleRow($query, $data) !== false;
-    }
 }
 
 // Example usage:
@@ -185,10 +117,4 @@ class User {
 // $resetPasswordResult = $userModel->resetPassword($userId, $newPassword);
 // $userProfile = $userModel->getUserProfile($userId);
 // $updateResult = $userModel->updateProfile($userId, $newUsername, $newBio, $newProfilePicture);
-// $followers = $userModel->getFollowers($userId);
-// $sendFriendRequestResult = $userModel->sendFriendRequest($senderId, $receiverId);
-// $friendRequests = $userModel->getFriendRequests($userId);
-// $respondToRequestResult = $userModel->respondToFriendRequest($requestId, $response);
-// $friends = $userModel->getFriends($userId);
-// $subscribeResult = $userModel->subscribeToPremium($userId, $startDate, $endDate);
-// $isPremium = $userModel->isPremiumUser($userId);
+

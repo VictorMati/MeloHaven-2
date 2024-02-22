@@ -25,6 +25,14 @@ class Notification {
 
         return $this->db->executeQuery($query, $data);
     }
+
+    // Delete a notification
+    public function deleteNotification($notificationId) {
+        $query = "DELETE FROM Notifications WHERE notification_id = :notification_id";
+        $data = [':notification_id' => $notificationId];
+
+        return $this->db->executeQuery($query, $data);
+    }
 }
 
 // Example usage:
