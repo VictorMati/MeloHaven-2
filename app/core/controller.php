@@ -8,9 +8,9 @@ class controller{
 
     protected function loadView($view){
 
-        if (file_exists("../app/views/pages".$view.".php")){
+        if (file_exists("../app/views/pages/".$view.".php")){
 
-            include("../app/views/pages".$view.".php");
+            include("../app/views/pages/".$view.".php");
         }
         else{
             include("../app/views/404.php");

@@ -1,0 +1,37 @@
+.profile-page {
+    width: 100%;
+    max-width: 960px;
+    margin:0 auto;
+}
+
+.profile-info {
+    float:left;
+    width:30%;
+    padding:10 20px;
+}
+
+.profile-activity {
+    float:left;
+    width:40%;
+    padding:10 20px;
+}
+
+.profile-friends {
+    float:right;
+    width:30%;
+    padding:10 20px;
+}
+
+.edit-profile-form {
+    display:none;
+}
+
+.edit-profile-link {
+    display:block;
+    margin-top:10px;
+}
+
+.cancel-edit-profile-link {
+    display:inline-block;
+    margin-left:10px;
+}

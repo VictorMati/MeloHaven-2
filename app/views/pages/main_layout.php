@@ -5,10 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeloHaven</title>
-    <link rel="stylesheet" href="/public/css/Index.css">
-    <link rel="stylesheet" href="/public/css/SongCard.css">
-    <link rel="stylesheet" href="/public/css/Player.css">
-    <link rel="stylesheet" href="/public/css/Variables.css">
+    <link rel="stylesheet" href="/public/css/main-view.css">
     <!-- Add more CSS files as needed for specific pages -->
 
     <link rel="icon" href="/public/images/app_images/logo.jpg" type="image/x-icon">
@@ -24,22 +21,22 @@
    <main>
 
     <div class="sidebar-container">
-        <?php include("../melohaven/app/views/components/Sidebar.php"); ?>
+        <?php include("../component/sidebar.php"); ?>
     </div>
 
     <div class="main-container">
         <header>
-            <?php include("../melohaven/app/Views/components/Header.php"); ?>
+            <?php include("../component/header.php"); ?>
         </header>
 
         <?php
             // Include the main content based on the requested page
             $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
-            $allowedPages = ['home', 'search', 'profile', 'login', 'signup', 'playlist', 'favorite', 'GenreView', 'upload', 'SongView', 'downloads'];
+            $allowedPages = ['home', 'search', 'profile', 'login', 'register', 'playlist', 'favorite', 'artist_view', 'upload', 'explore', 'genres'];
 
             if (in_array($page, $allowedPages)) {
-                include("../melohaven/app/Views/users/" . $page . ".php");
+                include("../pages/" . $page . ".php");
             } else {
                 // Handle 404 or redirect to a default page
                 include 'pages/404.php';
@@ -48,7 +45,7 @@
     </div>
 </main>
     <footer>
-        <?php include("../melohaven/app/Views/components/Player.php"); ?>
+        <?php include("../component/player.php"); ?>
     </footer>
 </body>
 </html>

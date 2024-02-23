@@ -1,11 +1,12 @@
 <?php
 
-class ProfileController {
+class ProfileController extends Controller {
+
     private $userModel;
 
     public function __construct() {
-        // Initialize the User model
-        $this->userModel = new User();
+        parent::__construct(); // Call the constructor of the parent class
+        $this->userModel = $this->loadModel('User');
     }
 
     // Display user profile
@@ -15,12 +16,8 @@ class ProfileController {
 
         // Check if the user exists
         if ($user) {
-            // Display the user profile view with $user data
-            // You may use a view rendering engine or echo HTML directly
-            // Example: include 'profile_view.php';
-            echo "Username: {$user->username}<br>";
-            echo "Bio: {$user->bio}<br>";
-            echo "Profile Picture: {$user->profile_picture}<br>";
+            // Display the user profile
+            $this->loadView('profile');
         } else {
             // User not found, display an error or redirect
             echo "User not found.";
@@ -44,9 +41,11 @@ class ProfileController {
                 // Profile updated successfully
                 // Redirect to the user profile page or display a success message
                 echo "Profile updated successfully.";
+                $this->loadView('profile');
             } else {
                 // Update failed, display an error or redirect to an error page
                 echo "Failed to update profile.";
+                $this->loadView('profile');
             }
         } else {
             // User not found, display an error or redirect
@@ -71,9 +70,11 @@ class ProfileController {
                 // Profile picture updated successfully
                 // Redirect to the user profile page or display a success message
                 echo "Profile picture updated successfully.";
+                $this->loadView('profile');
             } else {
                 // Update failed, display an error or redirect to an error page
                 echo "Failed to update profile picture.";
+                $this->loadView('profile');
             }
         } else {
             // User not found, display an error or redirect

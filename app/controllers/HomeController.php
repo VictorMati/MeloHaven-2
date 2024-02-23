@@ -2,46 +2,57 @@
 
 class HomeController extends Controller
 {
-    private $songModel;
-    private $artistModel;
-    private $bannerModel;
-
-    public function __construct()
-    {
-        parent::__construct();
-        // Initialize models used by HomeController
-        $this->songModel = $this->loadModel('Song');
-        $this->artistModel = $this->loadModel('Artist');
-        $this->bannerModel = $this->loadModel('Banner');
-    }
-
-    // Method to load the home page
+    // Home page action
     public function index()
     {
-        // Fetch data for various sections
-        $newReleases = $this->songModel->getNewReleases();
-        $recommendedMusic = $this->songModel->getRecommendedMusic();
-        $popularArtists = $this->artistModel->getPopularArtists();
-        $bannerSlides = $this->bannerModel->getBannerSlides();
-
-        // Load the home page view with the fetched data
-        $this->loadView('home/index', [
-            'newReleases' => $newReleases,
-            'recommendedMusic' => $recommendedMusic,
-            'popularArtists' => $popularArtists,
-            'bannerSlides' => $bannerSlides,
-        ]);
+        // Load the home page view
+        $this->loadView('home');
     }
 
-    // Method to handle banner slides
-    public function handleBannerSlides()
+    // Method for handling banner slides
+    public function bannerSlides()
     {
-        // Logic for handling banner slides, if needed
+        // Assuming you have a Banner model
+        $bannerModel = $this->loadModel('Banner');
+        $slides = $bannerModel->getBannerSlides();
+
+        // You may pass $slides to the view or handle it accordingly
+        // For simplicity, let's assume the view is loaded directly in this method
+        $this->loadView('home/banner', ['slides' => $slides]);
     }
 
-    // Method to display various sections
-    public function displaySections()
+    // Method for displaying new releases
+    public function newReleases()
     {
-        // Logic for displaying various sections, if needed
+        // Assuming you have a Song model
+        $songModel = $this->loadModel('Song');
+        $newReleases = $songModel->getNewReleases();
+
+        // Pass $newReleases to the view or handle it accordingly
+        $this->loadView('home/new_releases', ['newReleases' => $newReleases]);
     }
+
+    // Method for displaying recommended music
+    public function recommendedMusic()
+    {
+        // Assuming you have a Recommendation model
+        $recommendationModel = $this->loadModel('Recommendation');
+        $recommendedMusic = $recommendationModel->getRecommendedMusic();
+
+        // Pass $recommendedMusic to the view or handle it accordingly
+        $this->loadView('home/recommended_music', ['recommendedMusic' => $recommendedMusic]);
+    }
+
+    // Method for displaying popular artists
+    public function popularArtists()
+    {
+        // Assuming you have an Artist model
+        $artistModel = $this->loadModel('Artist');
+        $popularArtists = $artistModel->getPopularArtists();
+
+        // Pass $popularArtists to the view or handle it accordingly
+        $this->loadView('home/popular_artists', ['popularArtists' => $popularArtists]);
+    }
+
+    // Additional methods for other sections can be added as needed
 }

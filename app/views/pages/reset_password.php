@@ -14,7 +14,7 @@
     <div class="reset-password-container">
         <img src="/public/assets/images/app_images/logo.jpg" alt="Melohaven Logo">
         <h1>Melohaven</h1>
-        <form action="/app/controllers/UserController.php?action=resetPassword" method="post" onsubmit="return validateResetPasswordForm()">
+        <form action="../controllers/UserController.php" method="post" onsubmit="return validateResetPasswordForm()">
             <div class="input-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
@@ -22,7 +22,7 @@
             <button type="submit">Reset Password</button>
         </form>
         <div class="options">
-            <p>Remember your password? <a href="/app/controllers/UserController.php?action=login">Log In</a></p>
+            <p>Remember your password? <a href="../views/login.php">Log In</a></p>
         </div>
     </div>
 

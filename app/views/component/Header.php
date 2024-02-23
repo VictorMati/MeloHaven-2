@@ -1,5 +1,5 @@
 <!-- header.php -->
-<link rel="stylesheet" href="/public/css/Header.css">
+<link rel="stylesheet" href="/public/css/header.css">
 
 <header>
     <div class="sidebar-toggle">

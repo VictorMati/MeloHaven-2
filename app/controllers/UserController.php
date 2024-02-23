@@ -19,14 +19,14 @@ class UserController extends Controller {
             if ($user) {
                 // Start a session and store user data
                 $_SESSION['user'] = $user;
-                $this->redirectTo('/dashboard'); // Redirect to dashboard or another authenticated page
+                $this->redirectTo('home'); // Redirect to dashboard or another authenticated page
             } else {
                 // Authentication failed, redirect to login page with an error message
                 $this->redirectTo('/app/controllers/AuthController.php?action=login&error=1');
             }
         } else {
             // Display the login view
-            $this->loadView('/login');
+            $this->loadView('login');
         }
     }
 
@@ -48,14 +48,14 @@ class UserController extends Controller {
             }
         } else {
             // Display the registration view
-            $this->loadView('/register');
+            $this->loadView('register');
         }
     }
 
     public function logout() {
         // Handle logout logic
         session_destroy(); // Destroy the session
-        $this->redirectTo('/app/controllers/AuthController.php?action=login'); // Redirect to login page
+        $this->redirectTo('login'); // Redirect to login page
     }
 
     public function forgotPassword() {
@@ -80,7 +80,7 @@ class UserController extends Controller {
             }
         } else {
             // Display the forgot password view
-            $this->loadView('/forgot_password');
+            $this->loadView('reset_password');
         }
     }
 
@@ -97,7 +97,7 @@ class UserController extends Controller {
                 $this->redirectTo('/app/controllers/AuthController.php?action=resetPassword&success=1');
             } else {
                 // Display the password reset view
-                $this->loadView('/reset_password');
+                $this->loadView('reset_password');
             }
         } else {
             // Invalid reset token or user ID, redirect to an error page

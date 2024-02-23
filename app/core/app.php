@@ -2,7 +2,7 @@
 
 class App {
 
-    private $controller = "user"; 
+    private $controller = "MainController"; 
     private $method = "index";
     private $params = [];
 
@@ -32,7 +32,7 @@ class App {
     }
 
     private function splitURL() {
-        $url = isset($_GET['url']) ? $_GET['url'] : "home";
+        $url = isset($_GET['url']) ? $_GET['url'] : "layouts/main_layout";
         return explode("/", filter_var(trim($url, "/"), FILTER_SANITIZE_URL));
     }
 }

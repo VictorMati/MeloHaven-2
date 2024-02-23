@@ -1,56 +1,63 @@
 <?php
 
-class GenreController {
+class GenreController extends Controller{
     private $genreModel;
 
     public function __construct() {
         // Initialize the Genre model
-        $this->genreModel = new Genre();
+        $this->genreModel = $this->loadModel('Genre');
     }
 
-    // Fetch genre information by genre ID
-    public function getGenreInfo($genreId) {
+    // Add a new genre
+    public function addGenre($genreName, $genreImage) {
+        // Add the genre to the model
+        $this->genreModel->addGenre($genreName, $genreImage);
+    }
+
+    // Display genre details
+    public function showGenre($genreId) {
         // Get genre information from the model
-        $genreInfo = $this->genreModel->getGenreInfo($genreId);
+        $genre = $this->genreModel->getGenreById($genreId);
 
-        // Display or process genre information as needed
-        return $genreInfo;
+        // Display the genre details
+        // You may use a view rendering engine or echo HTML directly
+        // Example: include 'genre_view.php';
+        echo "Genre Name: {$genre['genre_name']}<br>";
+        echo "Genre Image: <img src='{$genre['genre_image']}' alt='Genre Image'>";
     }
 
-    // Fetch all genres
+    // Get all genres
     public function getAllGenres() {
         // Get all genres from the model
         $allGenres = $this->genreModel->getAllGenres();
 
-        // Display or process all genres as needed
-        return $allGenres;
+        // Display all genres
+        // You may use a view rendering engine or echo HTML directly
+        // Example: include 'all_genres_view.php';
+        foreach ($allGenres as $genre) {
+            echo "Genre Name: {$genre['genre_name']}<br>";
+            echo "Genre Image: <img src='{$genre['genre_image']}' alt='Genre Image'>";
+        }
     }
 
-    // Create a new genre
-    public function createGenre($genreName, $genreImage) {
-        // Create a new genre using the model
-        $createResult = $this->genreModel->createGenre($genreName, $genreImage);
+    // Get songs by genre
+    public function getSongsByGenre($genreId) {
+        // Get songs by genre from the model
+        $songsByGenre = $this->genreModel->getSongsByGenre($genreId);
 
-        // Return the result of the creation process
-        return $createResult;
-    }
-
-    // Update genre information
-    public function updateGenre($genreId, $genreName, $genreImage) {
-        // Update genre information using the model
-        $updateResult = $this->genreModel->updateGenre($genreId, $genreName, $genreImage);
-
-        // Return the result of the update process
-        return $updateResult;
-    }
-
-    // Delete a genre
-    public function deleteGenre($genreId) {
-        // Delete a genre using the model
-        $deleteResult = $this->genreModel->deleteGenre($genreId);
-
-        // Return the result of the deletion process
-        return $deleteResult;
+        // Display songs by genre
+        // You may use a view rendering engine or echo HTML directly
+        // Example: include 'songs_by_genre_view.php';
+        foreach ($songsByGenre as $song) {
+            echo "Song Title: {$song['title']}<br>";
+            echo "Artist: {$song['artist_name']}<br>";
+            echo "Album: {$song['album']}<br>";
+            echo "Genre: {$song['genre_name']}<br>";
+            echo "Release Date: {$song['release_date']}<br>";
+            echo "Duration: {$song['duration']} seconds<br>";
+            echo "Uploaded By: {$song['uploaded_by']}<br>";
+            echo "Upload Date: {$song['upload_date']}<br>";
+            echo "Song Image: <img src='{$song['song_image']}' alt='Song Image'>";
+        }
     }
 }
-
