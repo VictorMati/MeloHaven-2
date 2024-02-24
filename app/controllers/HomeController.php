@@ -9,18 +9,6 @@ class HomeController extends Controller
         $this->loadView('home');
     }
 
-    // Method for handling banner slides
-    public function bannerSlides()
-    {
-        // Assuming you have a Banner model
-        $bannerModel = $this->loadModel('Banner');
-        $slides = $bannerModel->getBannerSlides();
-
-        // You may pass $slides to the view or handle it accordingly
-        // For simplicity, let's assume the view is loaded directly in this method
-        $this->loadView('home/banner', ['slides' => $slides]);
-    }
-
     // Method for displaying new releases
     public function newReleases()
     {

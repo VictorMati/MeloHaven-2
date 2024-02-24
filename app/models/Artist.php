@@ -16,6 +16,14 @@ class Artist {
         return $this->db->fetchSingleRow($query, $data);
     }
 
+    public function searchByArtistName($artistName) {
+        $query = "SELECT * FROM Artists WHERE artist_name LIKE :artist_name";
+        $data = [':artist_name' => '%' . $artistName . '%'];
+
+        return $this->db->fetchAllRows($query, $data);
+    }
+
+
     // Get all artists
     public function getAllArtists() {
         $query = "SELECT * FROM Artists";

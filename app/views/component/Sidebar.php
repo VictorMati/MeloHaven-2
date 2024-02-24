@@ -3,42 +3,67 @@
 <aside class="sidebar">
     <div class="logo">
         <img src="/public/assets/images/app_images/logo.jpg" alt="logo">
-        <h2>melohaven</h2>
+        <h2>Controller</h2>
+    </div>
+
     </div>
 
     <nav class="sidebar-navigation">
         <div class="section">
             <h3>Browse Music</h3>
             <ul>
-               <!-- TODO: <?php echo ($page === 'home') ? 'class="active"' : ''; ?> -->
-                <!-- Inside your navigation links loop -->
-                <li><a href="?page=home"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="?page=explore"><i class="fas fa-compass"></i> Explore</a></li>
-                <li><a href="?page=genres"><i class="fas fa-music"></i> Genres</a></li>
-                <li><a href="?page=artists"><i class="fas fa-users"></i> Artists</a></li>
+                <li><a href="?controller=home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="?controller=explore"><i class="fas fa-compass"></i> Explore</a></li>
+                <li><a href="?controller=genres"><i class="fas fa-music"></i> Genres</a></li>
+                <li><a href="?controller=artists"><i class="fas fa-users"></i> Artists</a></li>
             </ul>
         </div>
-        
+
         <div class="section">
             <h3>My Library</h3>
             <ul>
-                <li><a href="?page=recently_played"><i class="fas fa-history"></i> Recently Played</a></li>
-                <li><a href="?page=favorites"><i class="fas fa-heart"></i> Favorite Songs</a></li>
-                <li><a href="?page=playlists"><i class="fas fa-list"></i> Playlists</a></li>
+                <li><a href="?controller=recently_played"><i class="fas fa-history"></i> Recently Played</a></li>
+                <li><a href="?controller=favorites"><i class="fas fa-heart"></i> Favorite Songs</a></li>
+                <li><a href="?controller=playlists"><i class="fas fa-list"></i> Playlists</a></li>
             </ul>
         </div>
 
         <!-- Add more navigation links as needed -->
     </nav>
 
-    <?php if (isset($_SESSION['user_id'])) : ?>
-        <div class="sign">
-            <a href="?page=logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    <?php else : ?>
-        <div class="sign">
-            <a href="?page=login"><i class="fas fa-sign-in-alt"></i> Login</a>
-        </div>
-    <?php endif; ?>
-</aside>
+    <?php
+    require_once("app/controllers/UserController.php");
 
+    $auth = new UserController();
+
+    ?>
+
+    <div class="chat">
+
+        <?php
+
+        require_once("app/controllers/UserController.php");
+
+        $auth = new UserController();
+
+        if (isset($_SESSION['user_id'])) : ?>
+
+            <a href="/chat">
+                <i class="fas fa-comment"></i> Chat
+            </a>
+
+        <?php else : ?>
+
+            <a href="/login">
+                <i class="fas fa-comment"></i> Chat
+            </a>
+
+        <?php endif; ?>
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+</aside>

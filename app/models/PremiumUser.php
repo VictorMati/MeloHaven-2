@@ -29,6 +29,26 @@ class PremiumUser {
 
         return $this->db->fetchSingleRow($query, $data) !== false;
     }
+
+    public function getPremiumUsers() {
+        $query = "SELECT * FROM PremiumUsers";
+
+        return $this->db->fetchAllRows($query);
+    }
+
+    public function getPremiumSubscriptionDetails($userId){
+
+        $query = "SELECT * FROM users WHERE users.userId = $userId";
+
+        return $this->db->fetchSingleRow($query);
+    }
+
+    public function cancelPremiumSubscription($userId){
+
+        $query = "DELETE FROM PremiumUsers WHERE user_id = $userId";
+
+        return $this->db->executeQuery($query);
+    }
 }
 
 // Example usage:

@@ -3,10 +3,18 @@
 
 class SocialController {
     private $userModel;
+    private $followerModel;
+    private $friendRequestModel;
+    private $notificationModel;
+
+
 
     public function __construct() {
         // Initialize the User model
         $this->userModel = new User();
+        $this->followerModel = new Follower();
+        $this->friendRequestModel = new FriendRequest();
+        $this->notificationModel = new Notification();
     }
 
     // Follow a user
@@ -21,7 +29,7 @@ class SocialController {
 
             if (!$isFollowing) {
                 // Follow the user in the model
-                $followResult = $this->userModel->followUser($followerId, $followedId);
+                $followResult = $this->followerModel->followUser($followerId, $followedId);
 
                 if ($followResult) {
                     // Successfully followed
@@ -53,7 +61,7 @@ class SocialController {
 
             if ($isFollowing) {
                 // Unfollow the user in the model
-                $unfollowResult = $this->userModel->unfollowUser($followerId, $followedId);
+                $unfollowResult = $this->followerModel->unfollowUser($followerId, $followedId);
 
                 if ($unfollowResult) {
                     // Successfully unfollowed
@@ -75,7 +83,7 @@ class SocialController {
 
     // Check if a user is following another user
     private function isFollowing($followerId, $followedId) {
-        $followers = $this->userModel->getFollowers($followedId);
+        $followers = $this->followerModel->getFollowers($followedId);
 
         foreach ($followers as $follower) {
             if ($follower->follower_id == $followerId) {
@@ -94,11 +102,11 @@ class SocialController {
 
         if ($sender && $receiver) {
             // Check if a friend request already exists
-            $existingRequest = $this->getFriendRequest($senderId, $receiverId);
+            $existingRequest = $this->friendRequestModel->getFriendRequests($senderId, $receiverId);
 
             if (!$existingRequest) {
                 // Send the friend request in the model
-                $sendRequestResult = $this->userModel->sendFriendRequest($senderId, $receiverId);
+                $sendRequestResult = $this->friendRequestModel->sendFriendRequest($senderId, $receiverId);
 
                 if ($sendRequestResult) {
                     // Successfully sent friend request
@@ -119,18 +127,19 @@ class SocialController {
     }
 
     // Cancel a friend request
-    public function cancelFriendRequest($senderId, $receiverId) {
+    public function cancelFriendRequest($senderId, $receiverId)
+    {
         // Check if the sender and receiver users exist
         $sender = $this->userModel->getUserProfile($senderId);
         $receiver = $this->userModel->getUserProfile($receiverId);
 
         if ($sender && $receiver) {
             // Check if the friend request exists
-            $existingRequest = $this->getFriendRequest($senderId, $receiverId);
+            $existingRequest = $this->friendRequestModel->getFriendRequests($senderId, $receiverId);
 
-            if ($existingRequest) {
+            if (!empty($existingRequest)) {
                 // Cancel the friend request in the model
-                $cancelRequestResult = $this->userModel->cancelFriendRequest($existingRequest->request_id);
+                $cancelRequestResult = $this->friendRequestModel->rejectFriendRequest($existingRequest[0]->request_id);
 
                 if ($cancelRequestResult) {
                     // Successfully canceled friend request
@@ -150,14 +159,15 @@ class SocialController {
         }
     }
 
+
     // Accept or reject a friend request
     public function respondToFriendRequest($requestId, $response) {
         // Check if the friend request exists
-        $friendRequest = $this->userModel->getFriendRequestById($requestId);
+        $friendRequest = $this->friendRequestModel->getPendingFriendRequests($requestId);
 
         if ($friendRequest) {
             // Respond to the friend request in the model
-            $respondResult = $this->userModel->respondToFriendRequest($requestId, $response);
+            $respondResult = $this->friendRequestModel->respondToFriendRequest($requestId, $response);
 
             if ($respondResult) {
                 // Successfully responded to friend request
@@ -176,7 +186,7 @@ class SocialController {
     // Get friend requests for a user
     public function getFriendRequests($userId) {
         // Get friend requests from the model
-        $friendRequests = $this->userModel->getFriendRequests($userId);
+        $friendRequests = $this->friendRequestModel->getFriendRequests($userId);
 
         // Display or process friend requests as needed
         return $friendRequests;
@@ -185,7 +195,7 @@ class SocialController {
     // Fetch notifications for a user
     public function getNotifications($userId) {
         // Fetch notifications from the model
-        $notifications = $this->userModel->getNotifications($userId);
+        $notifications = $this->notificationModel->getNotifications($userId);
 
         // Display or process notifications as needed
         return $notifications;
@@ -194,7 +204,7 @@ class SocialController {
     // Mark a notification as read
     public function markNotificationAsRead($notificationId) {
         // Mark notification as read in the model
-        $markReadResult = $this->userModel->markNotificationAsRead($notificationId);
+        $markReadResult = $this->notificationModel->markNotificationAsRead($notificationId);
 
         if ($markReadResult) {
             // Successfully marked as read

@@ -57,6 +57,28 @@ class Song {
 
         return $this->db->executeQuery($query, $data);
     }
+
+    public function searchSongByTitle($title) {
+        $query = "SELECT * FROM Songs WHERE title LIKE :title";
+        $data = [':title' => $title];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
+    public function searchSongsByArtist($artistId) {
+        $query = "SELECT * FROM Songs WHERE artist_id = :artist_id";
+        $data = [':artist_id' => $artistId];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
+    public function searchSongsByGenre($genreId) {
+        $query = "SELECT * FROM Songs WHERE genre_id = :genre_id";
+        $data = [':genre_id' => $genreId];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
 }
 
 // Example usage:

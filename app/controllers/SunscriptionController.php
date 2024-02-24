@@ -1,11 +1,16 @@
 <?php
 
-class SubscriptionController {
+class SubscriptionController extends Controller {
     private $userModel;
+    private $premiumUserModel;
+
+    // Constructor
 
     public function __construct() {
         // Initialize the User model
         $this->userModel = new User();
+        // Initialize the Subscription model
+        $this->premiumUserModel = new PremiumUser();  
     }
 
     // Subscribe to premium
@@ -15,11 +20,11 @@ class SubscriptionController {
 
         if ($user) {
             // Check if the user is already a premium user
-            $isPremium = $this->userModel->isPremiumUser($userId);
+            $isPremium = $this->premiumUserModel->isPremiumUser($userId);
 
             if (!$isPremium) {
                 // Subscribe the user to premium in the model
-                $subscribeResult = $this->userModel->subscribeToPremium($userId, $startDate, $endDate);
+                $subscribeResult = $this->premiumUserModel->subscribeToPremium($userId, $startDate, $endDate);
 
                 if ($subscribeResult) {
                     // Successfully subscribed to premium
@@ -42,7 +47,7 @@ class SubscriptionController {
     // Check if a user is a premium user
     public function isPremiumUser($userId) {
         // Check if the user is a premium user in the model
-        $isPremium = $this->userModel->isPremiumUser($userId);
+        $isPremium = $this->premiumUserModel->isPremiumUser($userId);
 
         // Display or process premium status as needed
         return $isPremium;
@@ -51,7 +56,7 @@ class SubscriptionController {
     // Get premium subscription details for a user
     public function getSubscriptionDetails($userId) {
         // Get premium subscription details from the model
-        $subscriptionDetails = $this->userModel->getPremiumSubscriptionDetails($userId);
+        $subscriptionDetails = $this->premiumUserModel->getPremiumSubscriptionDetails($userId);
 
         // Display or process subscription details as needed
         return $subscriptionDetails;
@@ -76,11 +81,11 @@ class SubscriptionController {
     // Cancel premium subscription
     public function cancelPremiumSubscription($userId) {
         // Check if the user is a premium user
-        $isPremium = $this->userModel->isPremiumUser($userId);
+        $isPremium = $this->premiumUserModel->isPremiumUser($userId);
 
         if ($isPremium) {
             // Cancel the premium subscription in the model
-            $cancelResult = $this->userModel->cancelPremiumSubscription($userId);
+            $cancelResult = $this->premiumUserModel->cancelPremiumSubscription($userId);
 
             if ($cancelResult) {
                 // Successfully canceled premium subscription

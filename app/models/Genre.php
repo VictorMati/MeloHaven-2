@@ -23,6 +23,13 @@ class Genre {
         return $this->db->fetchAllRows($query);
     }
 
+    public function searchGenres($searchTerm) {
+        $query = "SELECT * FROM Genres WHERE genre_name LIKE :search_term";
+        $data = [':search_term' => '%' . $searchTerm . '%'];
+        return $this->db->fetchAllRows($query, $data);
+    }
+
+
     // Create a new genre
     public function createGenre($genreName, $genreImage) {
         $query = "INSERT INTO Genres (genre_name, genre_image) VALUES (:genre_name, :genre_image)";

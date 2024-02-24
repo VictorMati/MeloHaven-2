@@ -3,26 +3,34 @@
 class UserController extends Controller {
 
     private $userModel;
+    public function header()
+    {
+        $this->loadview('header');
+    }
+
+
+
 
     public function __construct() {
         parent::__construct();
         $this->userModel = $this->loadModel('User');
     }
-    public function login() {
+    public function login()
+    {
         // Handle login logic
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            $user = $this->userModel->authenticateUser($email, $password);
+            $user = $this->loadModel('UserModel')->authenticateUser($email, $password);
 
             if ($user) {
                 // Start a session and store user data
                 $_SESSION['user'] = $user;
-                $this->redirectTo('home'); // Redirect to dashboard or another authenticated page
+                $this->redirectTo('home');
             } else {
                 // Authentication failed, redirect to login page with an error message
-                $this->redirectTo('/app/controllers/AuthController.php?action=login&error=1');
+                $this->redirectTo('/login?error=1');
             }
         } else {
             // Display the login view
@@ -30,7 +38,9 @@ class UserController extends Controller {
         }
     }
 
-    public function register() {
+
+    public function register()
+    {
         // Handle registration logic
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])) {
             $username = $_POST['username'];
@@ -41,10 +51,10 @@ class UserController extends Controller {
 
             if ($registrationResult) {
                 // Registration successful, redirect to login page
-                $this->redirectTo('/app/controllers/AuthController.php?action=login');
+                $this->redirectTo('login');
             } else {
                 // Registration failed, redirect to registration page with an error message
-                $this->redirectTo('/app/controllers/AuthController.php?action=register&error=1');
+                $this->redirectTo('/register?error=1');
             }
         } else {
             // Display the registration view
@@ -52,13 +62,15 @@ class UserController extends Controller {
         }
     }
 
+
     public function logout() {
         // Handle logout logic
         session_destroy(); // Destroy the session
         $this->redirectTo('login'); // Redirect to login page
     }
 
-    public function forgotPassword() {
+    public function forgotPassword()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
             $email = $_POST['email'];
 
@@ -73,16 +85,18 @@ class UserController extends Controller {
                 // sendPasswordResetEmail($email, $resetToken);
 
                 // Redirect to a confirmation page
-                $this->redirectTo('/app/controllers/AuthController.php?action=forgotPassword&success=1');
+                $this->redirectTo('/forgot-password-confirmation');
             } else {
                 // User not found, redirect to forgot password page with an error message
-                $this->redirectTo('/app/controllers/AuthController.php?action=forgotPassword&error=1');
+                $this->redirectTo('/forgot-password?error=1');
             }
         } else {
             // Display the forgot password view
             $this->loadView('reset_password');
         }
     }
+
+
 
     public function resetPassword($userId, $resetToken) {
         // Validate reset token and user ID

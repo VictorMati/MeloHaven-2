@@ -8,23 +8,13 @@ class SongController extends Controller{
         $this->songModel = $this->loadModel('Song');
     }
 
-    // Display song details
+    // Show song details
     public function showSong($songId) {
-        // Get song information from the model
-        $song = $this->songModel->getSongById($songId);
 
-        // Display the song details
-        // You may use a view rendering engine or echo HTML directly
-        // Example: include 'song_view.php';
-        echo "Song Title: {$song['title']}<br>";
-        echo "Artist: {$song['artist_name']}<br>";
-        echo "Album: {$song['album']}<br>";
-        echo "Genre: {$song['genre_name']}<br>";
-        echo "Release Date: {$song['release_date']}<br>";
-        echo "Duration: {$song['duration']} seconds<br>";
-        echo "Uploaded By: {$song['uploaded_by']}<br>";
-        echo "Upload Date: {$song['upload_date']}<br>";
-        echo "Song Image: <img src='{$song['song_image']}' alt='Song Image'>";
+        $song = $this->songModel->getSongById($songId);
+    
+        require 'views/song.php';
+    
     }
 
     // Play song
@@ -93,45 +83,26 @@ class SongController extends Controller{
 
     // Get all songs
     public function getAllSongs() {
-        // Get all songs from the model
-        $allSongs = $this->songModel->getAllSongs();
 
-        // Display all songs
-        // You may use a view rendering engine or echo HTML directly
-        // Example: include 'all_songs_view.php';
-        foreach ($allSongs as $song) {
-            echo "Song Title: {$song['title']}<br>";
-            echo "Artist: {$song['artist_name']}<br>";
-            echo "Album: {$song['album']}<br>";
-            echo "Genre: {$song['genre_name']}<br>";
-            echo "Release Date: {$song['release_date']}<br>";
-            echo "Duration: {$song['duration']} seconds<br>";
-            echo "Uploaded By: {$song['uploaded_by']}<br>";
-            echo "Upload Date: {$song['upload_date']}<br>";
-            echo "Song Image: <img src='{$song['song_image']}' alt='Song Image'>";
-        }
+        $songs = $this->songModel->getAll();
+    
+        require 'views/songs.php';
+    
     }
+  
 
-    // Get songs by genre
-    public function getSongsByGenre($genreId) {
-        // Get songs by genre from the model
-        $songsByGenre = $this->songModel->getSongsByGenre($genreId);
+    // Get songs by genre 
+public function getSongsByGenre($genreId, $page=1) {
 
-        // Display songs by genre
-        // You may use a view rendering engine or echo HTML directly
-        // Example: include 'songs_by_genre_view.php';
-        foreach ($songsByGenre as $song) {
-            echo "Song Title: {$song['title']}<br>";
-            echo "Artist: {$song['artist_name']}<br>";
-            echo "Album: {$song['album']}<br>";
-            echo "Genre: {$song['genre_name']}<br>";
-            echo "Release Date: {$song['release_date']}<br>";
-            echo "Duration: {$song['duration']} seconds<br>";
-            echo "Uploaded By: {$song['uploaded_by']}<br>";
-            echo "Upload Date: {$song['upload_date']}<br>";
-            echo "Song Image: <img src='{$song['song_image']}' alt='Song Image'>";
-        }
-    }
+    $limit = 12;
+    $offset = ($page - 1) * $limit;
+    
+    $songs = $this->songModel->getByGenre($genreId, $limit, $offset);
+    $total = $this->songModel->countByGenre($genreId);
+  
+    require 'views/genre_songs.php';
+  
+  }
 
     // Get songs by artist
     public function getSongsByArtist($artistId) {
@@ -196,24 +167,12 @@ class SongController extends Controller{
         }
     }
 
-    // Search for songs
-    public function searchSongs($query) {
-        // Search for songs using the model
-        $searchSongs = $this->songModel->searchSongs($query);
+  // Search songs
+public function searchSongs($query) {
 
-        // Display search results
-        // You may use a view rendering engine or echo HTML directly
-        // Example: include 'search_results_view.php';
-        foreach ($searchSongs as $song) {
-            echo "Song Title: {$song['title']}<br>";
-            echo "Artist: {$song['artist_name']}<br>";
-            echo "Album: {$song['album']}<br>";
-            echo "Genre: {$song['genre_name']}<br>";
-            echo "Release Date: {$song['release_date']}<br>";
-            echo "Duration: {$song['duration']} seconds<br>";
-            echo "Uploaded By: {$song['uploaded_by']}<br>";
-            echo "Upload Date: {$song['upload_date']}<br>";
-            echo "Song Image: <img src='{$song['song_image']}' alt='Song Image'>";
-        }
-    }
+    $songs = $this->songModel->search($query);
+    
+    require 'views/search_results.php';
+  
+  }
 }

@@ -15,22 +15,29 @@ class SearchController {
     }
 
     // Search for songs
-    public function searchSongs($query) {
+    public function searchSongs($query)
+    {
         // Perform song search using the Song model
-        $searchResults = $this->songModel->searchSongs($query);
+        $searchResults = $this->songModel->searchSongsByArtist($query);
+        $searchResults = array_merge($searchResults, $this->songModel->searchSongsByGenre($query));
+
 
         // Display or process song search results as needed
         return $searchResults;
     }
 
-    // Search for artists
-    public function searchArtists($query) {
-        // Perform artist search using the Artist model
-        $searchResults = $this->artistModel->searchArtists($query);
 
-        // Display or process artist search results as needed
+
+    // Search for artists
+    public function searchArtists($query)
+    {
+        // Perform artist search using the Artist model
+        $searchResults = $this->artistModel->searchByArtistName($query);
+
+        // Display or process artist search results as needed 
         return $searchResults;
     }
+
 
     // Search for genres
     public function searchGenres($query) {

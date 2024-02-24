@@ -8,6 +8,13 @@ class User {
         $this->db = new Database();
     }
 
+    public function getAllUsers() {
+        $query = "SELECT * FROM Users";
+
+        return $this->db->fetchAllRows($query);
+    }
+
+
     // Get user by email
     public function getUserByEmail($email) {
         $query = "SELECT * FROM Users WHERE email = :email";
@@ -31,6 +38,14 @@ class User {
 
         return $this->db->fetchSingleRow($query, $data);
     }
+
+    public function searchUsers($searchTerm) {
+        $query = "SELECT * FROM Users WHERE username LIKE :search_term";
+        $data = [':search_term' => "%$searchTerm%"];
+
+        return $this->db->fetchAllRows($query, $data);
+    }
+
 
     // Update user password reset token
     public function updatePasswordResetToken($userId, $resetToken) {
@@ -102,6 +117,13 @@ class User {
     public function updateProfile($userId, $username, $bio, $profilePicture) {
         $query = "UPDATE Users SET username = :username, bio = :bio, profile_picture = :profile_picture WHERE user_id = :user_id";
         $data = [':user_id' => $userId, ':username' => $username, ':bio' => $bio, ':profile_picture' => $profilePicture];
+
+        return $this->db->executeQuery($query, $data);
+    }
+
+    public function deleteUserAccount($userId){
+        $query = "DELETE FROM Users WHERE user_id = :user_id";
+        $data = [':user_id' => $userId];
 
         return $this->db->executeQuery($query, $data);
     }

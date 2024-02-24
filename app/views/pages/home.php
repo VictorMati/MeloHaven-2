@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeloHaven</title>
+    <title>MeloHaven-home</title>
     <link rel="stylesheet" href="/public/css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
     <header>
         <div class="container">
-            <a href="/" class="logo">MeloHaven</a>
             <nav>
                 <a href="/explore">Explore</a>
                 <a href="/new-releases">New Releases</a>
@@ -18,12 +18,6 @@
                 <a href="/popular-artists">Popular Artists</a>
                 <a href="/popular-songs">Popular Songs</a>
             </nav>
-            <div class="search-bar">
-                <form action="/search" method="get">
-                    <input type="text" name="q" placeholder="Search for music...">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
         </div>
     </header>
 
@@ -42,61 +36,22 @@
 
             <section class="new-releases">
                 <h2>New Releases</h2>
-                <div class="albums">
-                    <?php foreach ($newReleases as $newRelease) { ?>
-                        <div class="album">
-                            <img src="<?php echo $newRelease['album_image']; ?>" alt="<?php echo $newRelease['album_name']; ?>">
-                            <div class="info">
-                                <a href="/albums/<?php echo $newRelease['album_id']; ?>"><?php echo $newRelease['album_name']; ?></a>
-                                <p><?php echo $newRelease['artist_name']; ?></p>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <?php $this->load->view('cards/album', ['albums' => $newReleases]) ?>
             </section>
 
             <section class="recommended">
                 <h2>Recommended for you</h2>
-                <div class="albums">
-                    <?php foreach ($recommendedMusic as $recommendedSong) { ?>
-                        <div class="album">
-                            <img src="<?php echo $recommendedSong['album_image']; ?>" alt="<?php echo $recommendedSong['album_name']; ?>">
-                            <div class="info">
-                                <a href="/albums/<?php echo $recommendedSong['album_id']; ?>"><?php echo $recommendedSong['album_name']; ?></a>
-                                <p><?php echo $recommendedSong['artist_name']; ?></p>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <?php $this->load->view('cards/song', ['songs' => $recommendedMusic]) ?>
             </section>
 
             <section class="popular-artists">
                 <h2>Popular Artists</h2>
-                <div class="artists">
-                    <?php foreach ($popularArtists as $popularArtist) { ?>
-                        <div class="artist">
-                            <img src="<?php echo $popularArtist['artist_image']; ?>" alt="<?php echo $popularArtist['artist_name']; ?>">
-                            <div class="info">
-                                <a href="/artists/<?php echo $popularArtist['artist_id']; ?>"><?php echo $popularArtist['artist_name']; ?></a>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <?php $this->load->view('cards/artist', ['artists' => $popularArtists]) ?>
             </section>
 
             <section class="popular-songs">
                 <h2>Popular Songs</h2>
-                <div class="songs">
-                    <?php foreach ($popularSongs as $popularSong) { ?>
-                        <div class="song">
-                            <img src="<?php echo $popularSong['song_image']; ?>" alt="<?php echo $popularSong['song_name']; ?>">
-                            <div class="info">
-                                <a href="/songs/<?php echo $popularSong['song_id']; ?>"><?php echo $popularSong['song_name']; ?></a>
-                                <p><?php echo $popularSong['artist_name']; ?></p>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <?php $this->load->view('cards/song', ['songs' => $popularSongs]) ?>
             </section>
 
             <div class="load-more">
@@ -112,7 +67,9 @@
     </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+
     <script src="/public/js/home.js"></script>
+</body>
+
 </body>
 </html>
